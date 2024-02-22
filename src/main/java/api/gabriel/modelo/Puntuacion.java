@@ -4,8 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
+//VERSION 1.0 terminada
 @Entity(name = "puntuacion")
-public class Puntuacion {
+public class Puntuacion{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
