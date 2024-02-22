@@ -11,7 +11,6 @@ public class Puntuacion {
     long id;
     @NotBlank(message = "El nombre NO puede estar vacio")
     String jugador;
-    @Length(min = 1, max = 4, message = "La puntuacion SUPERA a 9999")
     int puntuacion;
 
     @ManyToOne
