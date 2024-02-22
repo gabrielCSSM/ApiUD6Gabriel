@@ -42,24 +42,31 @@ public class ControladorPuntuaciones {
     @GetMapping("/{id}")
     public Puntuacion obtenerPuntuacion(@PathVariable long id) {
         return puntRepo.findById(id).orElseThrow(() ->
-                new RuntimeException("PUNTUACION no ENCONTRADA / no EXISTE")
+                new RuntimeException("La PUNTUACION no EXISTE / no se pudo ENCONTRAR")
         );
     }
 
     @PostMapping("/juego/{id}")
     public Puntuacion añadirPuntuacion(@PathVariable long id, @RequestBody Puntuacion p) {
-        Juego jtemp = juegoRepo.findById(id).orElseThrow(() -> new RuntimeException("PUNTUACION no ENCONTRADA / no EXISTE"));
+        Juego jtemp = juegoRepo.findById(id).orElseThrow(() ->
+                new RuntimeException("El JUEGO no EXISTE / no se pudo ENCONTRAR"));
+
         p.setJuego(jtemp);
-        return puntRepo.save(p);
+
+        if (p.getJugador() == null || p.getJugador().isEmpty()) {
+            throw new RuntimeException("El JUGADOR es ERRONEO");
+        } else {
+            return puntRepo.save(p);
+        }
     }
 
     @PutMapping("/{id}")
     public Puntuacion modificarPuntuacion(@PathVariable long id, @RequestBody Puntuacion p) {
         return puntRepo.findById(id).map(punttemp -> {
-            punttemp.setJugador(p.getJugador() != null ? p.getJugador() : punttemp.getJugador());
+            punttemp.setJugador(p.getJugador() != null && !p.getJugador().isEmpty()? p.getJugador() : punttemp.getJugador());
             punttemp.setPuntuacion(p.getPuntuacion());
             return puntRepo.save(punttemp);
-        }).orElseThrow(() -> new RuntimeException("PUNTUACION no ENCONTRADA / no EXISTE"));
+        }).orElseThrow(() -> new RuntimeException("La PUNTUACION no EXISTE / no se pudo ENCONTRAR"));
     }
 
     @DeleteMapping("/{id}")

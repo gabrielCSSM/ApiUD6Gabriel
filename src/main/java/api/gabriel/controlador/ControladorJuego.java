@@ -34,15 +34,21 @@ public class ControladorJuego {
 
     @PostMapping()
     public Juego meterJuego(@RequestBody Juego j) {
-        return juegoRepo.save(j);
+        if (j.getNombre().isEmpty() || j.getNombre() == null) {
+            throw new RuntimeException("El nombre del JUEGO es ERRONEO");
+        } else {
+            return juegoRepo.save(j);
+        }
     }
 
     @PutMapping("/{id}")
     public Juego modificarJuego(@PathVariable long id, @RequestBody Juego juego) {
         return juegoRepo.findById(id).map(juegotemp -> {
-            juegotemp.setNombre(juego.getNombre());
+            juegotemp.setNombre(juego.getNombre() != null &&
+                    !juego.getNombre().isEmpty() ? juego.getNombre() : juegotemp.getNombre());
             return juegoRepo.save(juegotemp);
-        }).orElseThrow(() -> new RuntimeException("JUEGO no ENCONTRADO"));
+        }).orElseThrow(() ->
+                new RuntimeException("El JUEGO no EXISTE / no se pudo ENCONTRAR"));
     }
 
     @DeleteMapping("/{id}")

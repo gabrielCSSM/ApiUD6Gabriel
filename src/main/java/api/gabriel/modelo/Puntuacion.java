@@ -9,7 +9,7 @@ public class Puntuacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    @NotBlank(message = "El nombre NO puede estar vacio")
+    @NotBlank(message = "El jugador NO puede estar vacio")
     String jugador;
     int puntuacion;
 
