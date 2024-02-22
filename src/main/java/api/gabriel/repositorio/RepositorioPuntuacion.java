@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RepositorioPuntuacion extends JpaRepository<Puntuacion, Long> {
-    List<Puntuacion> puntuacionesPorID();
-    List<Puntuacion> puntuacionesPorNombre();
-    List<Puntuacion> puntuacionesPorPuntos();
+    // List<Puntuacion> puntuacionesPorID();
+    // List<Puntuacion> puntuacionesPorNombre();
+    // List<Puntuacion> puntuacionesPorPuntos();
 }

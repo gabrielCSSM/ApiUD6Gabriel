@@ -18,12 +18,12 @@ public class ControladorJuego {
     @Autowired
     private RepositorioJuego juegoRepo;
 
-    @GetMapping("/all/byID")
+    @GetMapping("/byID")
     public List<Juego> juegosPorID() {
         return juegoRepo.findAll(Sort.by(Sort.Direction.ASC,"id"));
     }
 
-    @GetMapping("/all/byName")
+    @GetMapping("/byName")
     public List<Juego> juegosPorNombre() {
         return juegoRepo.findAll(Sort.by(Sort.Direction.ASC,"nombre"));
     }
