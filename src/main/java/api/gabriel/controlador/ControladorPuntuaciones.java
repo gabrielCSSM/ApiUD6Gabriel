@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -39,11 +40,21 @@ public class ControladorPuntuaciones {
         return puntRepo.findAll(Sort.by(Sort.Direction.ASC, "puntuacion"));
     }
 
-    @GetMapping("/{id}")
-    public Puntuacion obtenerPuntuacion(@PathVariable long id) {
-        return puntRepo.findById(id).orElseThrow(() ->
-                new RuntimeException("La PUNTUACION no EXISTE / no se pudo ENCONTRAR")
-        );
+    @GetMapping("/byGame/{id}")
+    public List<Puntuacion> obtenerPuntuacionesDeUnJuego(@PathVariable long id) {
+
+        Juego jtemp = juegoRepo.findById(id).orElseThrow(() ->
+                new RuntimeException("El JUEGO no EXISTE / no se pudo ENCONTRAR"));
+
+        ArrayList<Puntuacion> listaPuntuaciones = new ArrayList<>();
+
+        puntRepo.findAll().forEach( puntuacion -> {
+            if (puntuacion.getJuego().equals(jtemp)) {
+                listaPuntuaciones.add(puntuacion);
+            }
+        });
+
+        return listaPuntuaciones;
     }
 
     @PostMapping("/juego/{id}")
@@ -55,6 +66,8 @@ public class ControladorPuntuaciones {
 
         if (p.getJugador() == null || p.getJugador().isEmpty()) {
             throw new RuntimeException("El JUGADOR es ERRONEO");
+        } else if (p.getPuntuacion() < 0) {
+            throw new RuntimeException("La PUNTUACION es ERRONEA (menor que 0)");
         } else {
             return puntRepo.save(p);
         }

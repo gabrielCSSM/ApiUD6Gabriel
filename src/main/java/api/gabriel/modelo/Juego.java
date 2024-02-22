@@ -1,10 +1,9 @@
 package api.gabriel.modelo;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+
+import java.util.List;
 
 @Entity(name = "juego")
 public class Juego {
@@ -14,6 +13,8 @@ public class Juego {
     @NotBlank(message = "El nombre NO puede estar vacio")
     String nombre;
 
+    @OneToMany(mappedBy = "juego", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Puntuacion> puntuacions;
     public Juego() {
     }
 
