@@ -20,18 +20,22 @@ public class ControladorPuntuaciones {
     @Autowired
     private  RepositorioJuego juegoRepo;
 
-    @GetMapping("/byID")
-    public List<Puntuacion> puntuacionesPorID() {
-        return puntRepo.findAll(Sort.by(Sort.Direction.ASC,"id"));
+    @GetMapping()
+    public List<Puntuacion> obtenerTodos() {
+        return puntRepo.findAll();
     }
 
     @GetMapping("/byName")
     public List<Puntuacion> puntuacionesPorNombre() {
-        return puntRepo.findAll(Sort.by(Sort.Direction.ASC,"nombre"));
+        return puntRepo.findAll(Sort.by(Sort.Direction.ASC,"jugador"));
     }
 
-    @GetMapping("/byScore")
-    public List<Puntuacion> puntuacionesPorPuntos() {
+    @GetMapping("/byScore/high")
+    public List<Puntuacion> puntuacionesAltas() {
+        return puntRepo.findAll(Sort.by(Sort.Direction.DESC,"puntuacion"));
+    }
+    @GetMapping("/byScore/low")
+    public List<Puntuacion> puntuacionesBajas() {
         return puntRepo.findAll(Sort.by(Sort.Direction.ASC,"puntuacion"));
     }
 }
